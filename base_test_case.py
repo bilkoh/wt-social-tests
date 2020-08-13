@@ -32,7 +32,6 @@ class BaseTestCase(BaseCase):
         self.click("#password")
         self.type("#password", PASSWD)
         self.click("//button[@type='submit']")
-        pass
 
     def make_post(self, message):
         self.open("https://wtsdev.wikitribune.com/")
@@ -51,7 +50,6 @@ class BaseTestCase(BaseCase):
 
         # submit
         self.click('//*[@id="saveArticle"]/span')
-        pass
 
     def nav_to_activity_page(self):
         """Navigate to the page that shows all our posts.
@@ -59,7 +57,6 @@ class BaseTestCase(BaseCase):
         self.open("https://wtsdev.wikitribune.com/")
         self.click('//*[@id="header-user-url"]')
         self.click('//*[@id="userdd-myactivity"]')
-        pass
 
     def nav_to_post(self, message):
         """Navigate to one of our posts based on the content of post.
@@ -72,4 +69,20 @@ class BaseTestCase(BaseCase):
         # finding partial match b/c longer posts will have shortened titles
         match_len = 4
         self.find_partial_link_text(message[:match_len]).click()
-        pass
+
+    def delete_post(self, message):
+        """Delete post, matching by content
+
+        Args:
+            message (string): content of our post
+        """
+        self.nav_to_post(message)
+        # delete button
+        self.click('//*[@id="article-view"]/div/div[2]/div[1]/div/span[2]/a')
+        # (optional) summary textbox where we explain why we're deleting post
+        self.type('//*[@id="action-summary"]', "wt-social-test action")
+        # delete article button
+        self.click(
+            '//*[@id="article-view"]/div/div[2]/div[1]/div/span[2]/div/button[1]'
+        )
+
